@@ -1,17 +1,23 @@
 from common.point import *
 
-UP = Point(1, 0)
-DOWN = Point(-1, 0)
+UP = Point(-1, 0)
+DOWN = Point(1, 0)
 LEFT = Point(0, -1)
 RIGHT = Point(0, 1)
-DIRECTIONS = [UP, DOWN, LEFT, RIGHT]
+DIRECTIONS = [UP, RIGHT, DOWN, LEFT]
 
 UP_LEFT = UP + LEFT
 UP_RIGHT = UP + RIGHT
 DOWN_LEFT = DOWN + LEFT
 DOWN_RIGHT = DOWN + RIGHT
 DIAGONALS = [UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT]
-ALL_DIRECTIONS = DIRECTIONS + DIAGONALS
+ALL_DIRECTIONS = [UP, UP_RIGHT, RIGHT, DOWN_RIGHT, DOWN, DOWN_LEFT, LEFT, UP_LEFT]
+
+def turn_right(direction, dirs=DIRECTIONS):
+    return dirs[(dirs.index(direction) + 1) % len(dirs)]
+
+def turn_left(direction, dirs=DIRECTIONS):
+    return dirs[(dirs.index(direction) - 1) % len(dirs)]
 
 
 class Grid:
@@ -49,6 +55,13 @@ class Grid:
         for i in range(self.n):
             for j in range(self.m):
                 yield Point(i, j)
+    
+    def find(self, value):
+        found = []
+        for point in self.pos_iter():
+            if self[point] == value:
+                found.append(point)
+        return found
 
     def __repr__(self):
         return "\n".join(" ".join(map(str,row)) for row in self.values)
