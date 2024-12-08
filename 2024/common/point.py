@@ -1,13 +1,10 @@
 from typing import Any
 
-
 class Point:
-    def __init__(self, *values):
-        self.values = values
+    __slots__ = ("values",)
 
-        for name, idx in [("i", 0), ("j", 1), ("k", 2), ("x", 0), ("y", 1), ("z", 2)]:
-            if idx < len(values):
-                setattr(self, name, values[idx])
+    def __init__(self, *values):
+        self.values = list(values)
 
     def __repr__(self):
         return f"Point({', '.join(map(str, self.values))})"
@@ -34,3 +31,19 @@ class Point:
 
     def __hash__(self) -> int:
         return hash(tuple(self.values))
+
+    @staticmethod
+    def _make_property(index: int):
+        def getter(self):
+            return self.values[index]
+        def setter(self, value):
+            self.values[index] = value
+        return property(getter, setter)
+
+    i = _make_property(0)
+    j = _make_property(1)
+    k = _make_property(2)
+
+    x = _make_property(0)
+    y = _make_property(1)
+    z = _make_property(2)
