@@ -55,6 +55,10 @@ class Grid:
         for i in range(self.n):
             for j in range(self.m):
                 yield Point(i, j)
+
+    def items(self):
+        for point in self.pos_iter():
+            yield point, self[point]
     
     def find(self, value):
         found = []
