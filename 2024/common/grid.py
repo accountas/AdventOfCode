@@ -66,6 +66,10 @@ class Grid:
             if self[point] == value:
                 found.append(point)
         return found
+    
+    def map_values(self, fn):
+        for point in self.pos_iter():
+            self[point] = fn(self[point])
 
     def __repr__(self):
         return "\n".join(" ".join(map(str,row)) for row in self.values)
