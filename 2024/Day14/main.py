@@ -54,10 +54,11 @@ def count_quadrants(robots, width, height):
 
 
 def print_state(robots, width, height):
-    grid = Grid.empty(width, height, ".")
+    grid = Grid.empty(height, width, ".")
     for pos, _ in robots:
-        grid[pos] = "#"
+        grid[pos.y, pos.x] = "#"
     print(grid)
+
 
 
 def largest_blob(robots):
