@@ -1,5 +1,7 @@
-from typing import Any
 
+from functools import total_ordering
+
+@total_ordering
 class Point:
     __slots__ = ("values",)
 
@@ -31,6 +33,9 @@ class Point:
 
     def __hash__(self) -> int:
         return hash(tuple(self.values))
+    
+    def __lt__(self, other):
+        return self.values < other.values
 
     @staticmethod
     def _make_property(index: int):
