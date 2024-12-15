@@ -71,6 +71,9 @@ class Grid:
         for point in self.pos_iter():
             self[point] = fn(self[point])
 
+    def swap(self, a, b):
+        self[a], self[b] = self[b], self[a]
+
     def __repr__(self):
         return "\n".join(" ".join(map(str,row)) for row in self.values)
 
