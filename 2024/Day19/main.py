@@ -8,11 +8,8 @@ def count_arrangements(target, towels):
 
     for idx in range(1, len(target) + 1):
         prefix = target[:idx]
-
+        
         for towel in towels:
-            if len(prefix) < len(towel):
-                continue
-
             if prefix.endswith(towel):
                 num_ways[idx] += num_ways[idx - len(towel)]
 
