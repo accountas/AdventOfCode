@@ -89,26 +89,20 @@ def all_paths(now, target, pad, visited=set(), path=[]):
 
 
 @cache
-def num_pad_cost(start, end, num_robots):
-    best = float("inf")
-    for path in num_pad_paths(start, end):
-        path = ["A"] + path + ["A"]
-        best = min(
-            best, sum(dir_pad_cost(a, b, num_robots) for a, b in zip(path, path[1:]))
-        )
-    return best
-
-
-@cache
-def dir_pad_cost(start, end, num_left):
-    if num_left == 0:
+def min_cost(start, end, robots_left, is_first=False):
+    if robots_left == 0:
         return 1
 
+    if is_first:
+        paths = num_pad_paths(start, end)
+    else:
+        paths = dir_pad_paths(start, end)
+
     best = float("inf")
-    for path in dir_pad_paths(start, end):
+    for path in paths:
         path = ["A"] + path + ["A"]
         best = min(
-            best, sum(dir_pad_cost(a, b, num_left - 1) for a, b in zip(path, path[1:]))
+            best, sum(min_cost(a, b, robots_left - 1) for a, b in zip(path, path[1:]))
         )
     return best
 
@@ -117,7 +111,7 @@ def solve(pins, num_robots):
     ans = 0
     for pin in pins:
         for a, b in zip("A" + pin, pin):
-            cost = num_pad_cost(a, b, num_robots)
+            cost = min_cost(a, b, num_robots + 1, True)
             ans += cost * int(pin[:-1])
     return ans
 
