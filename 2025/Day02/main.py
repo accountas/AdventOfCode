@@ -1,34 +1,38 @@
 from common.data import *
 
-def invalid_ids_for_range(range_start, range_end, max_repetitions):
+def generate_invalid_ids(max_id, max_repetitions):
     invalid = set()
-    for base in range(1, 10 ** (len(str(range_end)) // 2)):
+    for base in range(1, 10 ** (len(str(max_id)) // 2)):
         repetitions = 2
         while max_repetitions is None or max_repetitions >= repetitions:
             id = int(str(base) * repetitions)
-            if id >= range_start and id <= range_end:
+            if id <= max_id:
                 invalid.add(id)
-            elif id > range_end:
+            else:
                 break
             repetitions += 1
+
     return invalid
+
+def invalid_id_sum(ranges, max_repetitions): 
+    max_id = max(r for _, r in ranges)
+    invalid_ids = generate_invalid_ids(max_id, max_repetitions)
+
+    total = 0
+    for l, r in ranges:
+        for id in invalid_ids:
+            if l <= id <= r:
+                total += id
+    return total
 
 def main():
     ranges = [
         list(map(int, r.split("-")))
-        for r in get_data(year=2025, day=2, sample=False).split(",")
+        for r in get_data(year=2025, day=2, sample=True).split(",")
     ]
+    print(f"Part 1:", invalid_id_sum(ranges, 2))
+    print(f"part 2:", invalid_id_sum(ranges, None))
     
-    part_1 = 0
-    part_2 = 0
-
-    for range_start, range_end in ranges:
-        # Assuming ranges don't intersect
-        part_1 += sum(invalid_ids_for_range(range_start, range_end, 2))
-        part_2 += sum(invalid_ids_for_range(range_start, range_end, None))
-
-    print(f"Part 1:", part_1)
-    print(f"part 2:", part_2)
 
 if __name__ == "__main__":
     main()
