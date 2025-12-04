@@ -48,7 +48,7 @@ class Grid:
                 yield new_point
 
     def neighbour_values(self, point, directions=DIRECTIONS):
-        for idx in self.neigbor_idxs(point, directions):
+        for idx in self.neighbours(point, directions):
             yield self[idx]
 
     def pos_iter(self):
