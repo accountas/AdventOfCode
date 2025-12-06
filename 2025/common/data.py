@@ -5,4 +5,4 @@ def get_data(year, day, sample = False):
         return aocd_get_data(year=year, day=day)
     
     with open(f"Day{str(day).rjust(2, '0')}/sample.txt") as f:
-        return f.read().strip()
+        return f.read()
