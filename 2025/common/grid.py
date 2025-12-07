@@ -34,6 +34,9 @@ class Grid:
     @classmethod
     def empty(cls, n, m, value=None):
         return cls([[value for _ in range(m)] for _ in range(n)])
+    
+    def shape(self):
+        return len(self.values), len(self.values[0])
 
     def is_valid(self, point):
         return 0 <= point[0] < self.n and 0 <= point[1] < self.m
